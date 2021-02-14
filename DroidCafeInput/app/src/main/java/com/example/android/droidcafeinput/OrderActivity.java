@@ -19,6 +19,10 @@ package com.example.android.droidcafeinput;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,6 +55,9 @@ public class OrderActivity extends AppCompatActivity
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         TextView textView = findViewById(R.id.order_textview);
         textView.setText(message);
+
+        TextView article_textView = findViewById(R.id.article);
+        registerForContextMenu(article_textView);
 
         // Create the spinner.
         Spinner spinner = findViewById(R.id.label_spinner);
@@ -132,5 +139,30 @@ public class OrderActivity extends AppCompatActivity
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         // Do nothing.
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.context_edit:
+                displayToast("Edit choice clicked.");
+                return true;
+            case R.id.context_share:
+                displayToast("Share choice clicked.");
+                return true;
+            case R.id.context_delete:
+                displayToast("Delete choice clicked.");
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
     }
 }
